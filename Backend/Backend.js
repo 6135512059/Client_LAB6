@@ -15,7 +15,7 @@ let bears = {
        { "id": 1, "name": "Winnie", "weight": 50 },
        { "id": 2, "name": "Pooh", "weight": 66 }]
 }
- 
+let user = { 'name': 'Patiparn', 'age': 23 }
 router.route('/bears')
    .get((req, res) => res.json(bears))
  
@@ -40,15 +40,22 @@ router.route('/bears/:bear_id')
        const id = bears.list.findIndex(item => +item.id === +bear_id)
        bears.list[id].name = req.body.name
        bears.list[id].weight = req.body.weight
-       res.json(bears.list[id])
+       res.json(bears)
    })
  
    .delete((req, res) => {
        const bear_id = req.params.bear_id
        console.log('bearId: ',bear_id)
        bears.list = bears.list.filter(item => +item.id !== +bear_id)
-       res.json(bears.list)
+       res.json(bears)
    })
+router.route('/users')
+   .get((req, res) => res.json(user))
+   .put((req, res) => {
+       user = { name: req.body.name, age: user.age }
+       res.json(user)
+   })
+
  
 app.use("*", (req, res) => res.status(404).send('404 Not found'));
 app.listen(80, () => console.log('server is running...'))
